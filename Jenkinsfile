@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent any
     stages {
         stage('Build') {
             steps {
@@ -16,6 +16,12 @@ pipeline {
                 // Run the tests
                 sh 'java -jar junit-platform-console-standalone-1.4.0.jar --class-path target --scan-class-path --reports-dir=target/surefire-reports/'
             }
+        }
+    }
+    post {
+        always {
+            // Report results
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
